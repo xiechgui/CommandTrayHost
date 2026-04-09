@@ -1,0 +1,26 @@
+name: Build CommandTrayHost
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    
+    - name: Build
+      run: msbuild CommandTrayHost.sln /p:Configuration=Release /p:Platform=x64
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: CommandTrayHost
+        path: x64/Release/CommandTrayHost.exe
